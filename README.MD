@@ -1,51 +1,57 @@
 # MAPTILER-GL-IR
 
-This library had been created to be used as a tile server for maplibre, and it only includes the Iran map.
+A tile server for MapLibre, focused on Iran’s map data.
 
-## Usage 
+## Usage
 
-- make a new clone of repository
-
-    ```shell
-    git clone https://github.com/alijany/maptiler-gl-ir.git
-    ```
-
-- goto repository dir
-
-    ```shell
-    cd maptiler-gl-ir
-    ```
-
-- build tile server image using docker:
-
-    ```properties
-    docker build . -t map-tiler
-    ```
-
-- run tile server container using docker:
-
-    ```properties
-    docker run -p 8080:8080 map-tiler
-    ```
-
- - done! See https://maplibre.org/ for client instructions
+1. Clone the repo:
+   ```sh
+   git clone https://github.com/alijany/maptiler-gl-ir.git
+   ```
+2. Change into the repository directory:
+   ```sh
+   cd maptiler-gl-ir
+   ```
+3. Build the container image:
+   ```sh
+   docker build . -t map-tiler
+   ```
+4. Run the image:
+   ```sh
+   docker run -p 8080:8080 map-tiler
+   ```
+5. Access the server at http://localhost:8080.
 
 ---
 
-## Update map Instruction
+## Update Map Instructions
 
-- download pbf file from  https://download.geofabrik.de/asia/iran-latest.osm.pbf
-- convert pbf to mbtiler format using tilemaker:
+1. Download the latest Iran PBF file from https://download.geofabrik.de/asia/iran-latest.osm.pbf.  
+2. Convert it to MBTiles with tilemaker:
+   ```sh
+   docker run --rm -it -v $(pwd):/srv tilemaker --input=/srv/iran-latest.osm.pbf --output=/srv/iran.mbtiles
+   ```
+3. Replace the resulting MBTiles file in [data/mbtiles](data/mbtiles).  
+4. Rebuild the Docker image to use the updated data.
 
-    ```sh
-    docker run --rm -it -v $(pwd):/srv tilemaker --input=/srv/iran-latest.osm.pbf --output=/srv/iran.mbtiles
-    ```
-- copy and replace iran.mbtiles to the `data/mbtiles/ folder
-- build new image and enjoy!
+---
 
-## Update styles instruction
+## Update Styles Instruction
 
--  generate new style using https://maplibre.org/
--  replace `layers` section of output style with `layers` section of `data\styles\style.json`
-- replace source of layers with `openmaptiles` if needed
-- build new image and done!
+1. Generate a new style at https://maplibre.org/.  
+2. Copy only the `layers` section from the generated style.
+3. In `style.json`, replace its `layers` section with the freshly generated one.
+4. Adjust any layer source references to `openmaptiles` if needed.
+5. Rebuild the Docker image to apply your new style.
+
+---
+
+## Configuration
+
+See [data/config.json](data/config.json) for server settings, data sources, fonts, styles, and paths.
+
+---
+
+## Docker Reference
+
+See [Dockerfile](Dockerfile) for the container build instructions.
