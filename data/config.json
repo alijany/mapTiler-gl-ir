@@ -1,0 +1,28 @@
+{
+    "options": {
+        "serveAllFonts": true,
+        "paths": {
+            "fonts": "fonts",
+            "styles": "styles",
+            "mbtiles": "mbtiles"
+        }
+    },
+    "styles": {
+        "basic-preview": {
+            "style": "style.json",
+            "tilejson": {
+                "bounds": [
+                    44.05222,
+                    24.50552,
+                    63.34049,
+                    39.79134
+                ]
+            }
+        }
+    },
+    "data": {
+        "v3": {
+            "mbtiles": "iran.2024.06.04.mbtiles"
+        }
+    }
+}
